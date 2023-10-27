@@ -10,7 +10,8 @@ use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
-use App\Repository\ArticleRepository;
+use App\Controller\PosteController;
+use App\Repository\PosteRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,34 +19,36 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(),
         new Post(
-            normalizationContext: ['groups' => ['article:create']],
+            name: 'post',
+            uriTemplate: '/postes',
+            controller: PosteController::class,
+            normalizationContext: ['groups' => ['poste:read']],
+            denormalizationContext: ['groups' => ['poste:create']],
+            security: "is_granted('ROLE_ADMIN')",
+            securityMessage: "Désolé, vous n'avez pas accés à cette ressource.",
         ),
-        new Get(),
-        new Put(
-            denormalizationContext: ['groups' => ['article:update']]
-        ),
-        new Patch(
-            denormalizationContext: ['groups' => ['article:update']]
-        ),
-        new Delete(),
+        new Get(
+            security: "is_granted('ROLE_ADMIN')",
+            securityMessage: "Désolé, vous n'avez pas accés à cette ressource.",
+            normalizationContext: ['groups' => ['poste:read']],
+        )
     ],
-    normalizationContext: ['groups' => ['article:read']],
 )]
-#[ORM\Entity(repositoryClass: ArticleRepository::class)]
-class Article
+#[ORM\Entity(repositoryClass: PosteRepository::class)]
+class Poste
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['article:read'])]
+    #[Groups(['poste:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['article:read', 'article:create', 'article:update'])]
+    #[Groups(['poste:read', 'poste:create', 'poste:update'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['article:read', 'article:create', 'article:update'])]
+    #[Groups(['poste:read', 'poste:create', 'poste:update'])]
     private ?string $content = null;
 
     public function getId(): ?int

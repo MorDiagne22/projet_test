@@ -31,14 +31,14 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
              validationContext: ['groups' => ['Default', 'user:create']]
         ),
         new Get(),
-        new Put(
-            processor: UserPasswordHasher::class,
-            denormalizationContext: ['groups' => ['user:update']],
-        ),
-        new Patch(
-            processor: UserPasswordHasher::class,
-            denormalizationContext: ['groups' => ['user:update']]
-        ),
+        // new Put(
+        //     processor: UserPasswordHasher::class,
+        //     denormalizationContext: ['groups' => ['user:update']],
+        // ),
+        // new Patch(
+        //     processor: UserPasswordHasher::class,
+        //     denormalizationContext: ['groups' => ['user:update']]
+        // ),
         new Delete(),
     ],
     normalizationContext: ['groups' => ['user:read']],

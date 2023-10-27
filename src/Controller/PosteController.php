@@ -2,29 +2,34 @@
 
 namespace App\Controller;
 
+use App\Service\MailService;
+use App\Service\PosteService;
 use App\Service\SecurityService;
 use App\Service\SerializerService;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 
-class SecurityController extends AbstractController
+class PosteController extends AbstractController
 {
-    public function __invoke(Request $request, SecurityService $securityService, SerializerService $serializerService): JsonResponse
+    public function __invoke(Request $request, PosteService $service, MailService $serviceMailService, Security $security, SerializerService $serializerService): JsonResponse
     {
-        
-        $user = $securityService->register($request->get("data"));
 
-        return new JsonResponse($serializerService->serialize($user, "user:read"), Response::HTTP_CREATED);
+        $poste = $service->add($request->get("data"));
+
+        if($poste){
+             $serviceMailService ->sendMail($security->getToken()->getUser());
+        }
+        
+        return new JsonResponse($serializerService->serialize($poste, "poste:read"), Response::HTTP_CREATED);
     }
 }

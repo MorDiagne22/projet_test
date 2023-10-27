@@ -2,9 +2,17 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Article;
 use App\Entity\AuditLog;
+use Doctrine\ORM\Events;
 use App\Service\AuditLogService;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\HttpKernel\Event\ViewEvent;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
+use ApiPlatform\Symfony\EventListener\EventPriorities;
+use App\Entity\Poste;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 
@@ -35,6 +43,8 @@ class JWTSubscriber implements EventSubscriberInterface
     {
         return [
             'lexik_jwt_authentication.on_authentication_success' => 'onLexikJwtAuthenticationOnAuthenticationSuccess',
+            // Events::postPersist,
         ];
     }
+
 }
