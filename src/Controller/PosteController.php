@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
 use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 
@@ -27,7 +28,13 @@ class PosteController extends AbstractController
         $poste = $service->add($request->get("data"));
 
         if($poste){
-             $serviceMailService ->sendMail($security->getToken()->getUser());
+            try {
+                
+                $serviceMailService->sendMail($security->getToken()->getUser());
+
+            } catch (TransportExceptionInterface $e) {
+                return new JsonResponse(["error" => $e->getMessage(), "description" => "Poste crée mais le mail n'a pas été envoyé "], Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
         }
         
         return new JsonResponse($serializerService->serialize($poste, "poste:read"), Response::HTTP_CREATED);

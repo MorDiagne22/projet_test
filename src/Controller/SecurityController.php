@@ -22,8 +22,11 @@ class SecurityController extends AbstractController
 {
     public function __invoke(Request $request, SecurityService $securityService, SerializerService $serializerService): JsonResponse
     {
-        
-        $user = $securityService->register($request->get("data"));
+        try {
+            $user = $securityService->register($request->get("data"));
+        } catch (\Exception $e) {
+            return new JsonResponse(["error" => $e->getMessage(), "Description" => "Erreur sur la creation d'utilisateur"], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
 
         return new JsonResponse($serializerService->serialize($user, "user:read"), Response::HTTP_CREATED);
     }

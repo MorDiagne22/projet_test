@@ -24,12 +24,8 @@ class MailService
         $email = (new Email())
             ->from($user->getEmail())
             ->to('team@devphantom')
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
             ->subject('Post crée avec succés!')
-            ->text('Sending emails is fun again!')
+            ->text('Email Envoyé!')
             ->html("Une publication vient d'etre créer avec succés");
 
         $this->mailer->send($email);
