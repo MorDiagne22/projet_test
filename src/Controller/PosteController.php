@@ -24,12 +24,12 @@ class PosteController extends AbstractController
 {
     public function __invoke(Request $request, PosteService $service, MailService $serviceMailService, Security $security, SerializerService $serializerService): JsonResponse
     {
-
+        // Ajout d'un poste
         $poste = $service->add($request->get("data"));
 
         if($poste){
             try {
-                
+                // Envoie de mail après une insertion reussie
                 $serviceMailService->sendMail($security->getToken()->getUser());
 
             } catch (TransportExceptionInterface $e) {

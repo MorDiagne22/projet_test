@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             controller: PosteController::class,
             normalizationContext: ['groups' => ['poste:read']],
             denormalizationContext: ['groups' => ['poste:create']],
-            security: "is_granted('ROLE_ADMIN')",
+            security: "is_granted('ROLE_ADMIN')", //Seule les utilisateurs qui ont le role ROLE_ADMIN peuvent accéder a cette ressource
             securityMessage: "Désolé, vous n'avez pas accés à cette ressource.",
         ),
         new Get(

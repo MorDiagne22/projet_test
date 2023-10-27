@@ -25,6 +25,7 @@ class SerializerService
         $this->mailer = $mailer;
     }
 
+    // cette fonction permet de normalizer les données après insertion
     public function serialize(mixed $data, string $group)
     {
         $context = (new ObjectNormalizerContextBuilder())->withGroups($group)->toArray();

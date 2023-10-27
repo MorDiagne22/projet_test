@@ -19,6 +19,7 @@ class MailService
         $this->mailer = $mailer;
     }
 
+    // Cette fonction permet d'envoyer un mail
     public function sendMail(User $user)
     {
         $email = (new Email())

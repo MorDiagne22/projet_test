@@ -23,6 +23,7 @@ class SecurityService
         $this->repository = $repository;
     }
 
+    //Cette fonction permet d'enregistrer un utilisateur
     public function register(User $user)
     {
 

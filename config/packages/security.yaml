@@ -44,9 +44,6 @@ security:
         - { path: ^/api/auth, roles: PUBLIC_ACCESS }
         - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/postes, roles: PUBLIC_ACCESS, methods: ['Get'] }
-        # - { path: ^/api/postes, roles: IS_AUTHENTICATED_FULLY}
-        # - { path: ^/api/postes/*, roles: IS_AUTHENTICATED_FULLY, methods: ['Post', 'Get'] }
-        # - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

@@ -24,7 +24,7 @@ class JWTSubscriber implements EventSubscriberInterface
     {
         $this->userRepo = $userRepository;
     }
-    
+    //Cet evenement modifie les données de sortant avec un authentication jwt reussie
     public function onLexikJwtAuthenticationOnAuthenticationSuccess($event): void
     {
         $user = $event->getUser();
@@ -43,7 +43,6 @@ class JWTSubscriber implements EventSubscriberInterface
     {
         return [
             'lexik_jwt_authentication.on_authentication_success' => 'onLexikJwtAuthenticationOnAuthenticationSuccess',
-            // Events::postPersist,
         ];
     }
 

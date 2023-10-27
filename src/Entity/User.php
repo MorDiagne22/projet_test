@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         new GetCollection(),
         new Post(
             name: 'register', 
-            uriTemplate: '/register', 
+            uriTemplate: '/register', //Cette route est public
             controller: SecurityController::class,
             normalizationContext: ['groups' => ['user:read']],
             denormalizationContext: ['groups' => ['user:create']],

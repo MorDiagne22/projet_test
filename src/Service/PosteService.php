@@ -21,7 +21,7 @@ class PosteService
     public function __construct(PosteRepository $repository) {
         $this->repository = $repository;
     }
-
+    //Cette fonction permet d'enregistrer un poste
     public function add(Poste $poste)
     {
         return $this->repository->save($poste);
